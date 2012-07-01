@@ -1,0 +1,20 @@
+I don't know that this file is explicitly necessary but I am putting it in here 
+anyway.
+Credits:
+1. Johnny McCown: http://www.thinkschematics.com
+    For giving me a project to work on.
+2. df4or: http://www.plicht.de/ekki/civ/index.html
+    Without this guy I doubt I would have been able to get the code to talk
+    to the CI-V buss done in a timely manor.
+3. Stephanie Maks:  https://github.com/Stephanie-Maks/Arduino-LiquidTWI
+    A huge thanks to this woman for making the optimized LiquidTWI Library
+    work on arduino 1.0
+4. Many:  http://arduino.cc/playground/Code/AvailableMemory
+    Thanks a ton to the guys that contributed to this library. I am a crappy
+    programmer and often find myself with memory leaks that eat the Arduinos RAM
+    until it crashes. This library has pulled my ass out of the fire on a couple
+    of occasions.
+5.  The people at Arduino: Arduino.cc
+    The documentation for the Arduino is amazing, I would be WAY further behind
+    where I am if it wasn't for the documentation on the site.
+
