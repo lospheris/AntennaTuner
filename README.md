@@ -4,7 +4,7 @@ AntennaTuner
 __Automatic Antenna Tuner__  
 __Filename:__ Antenna\_Tuner.ino  
 __Date:__ 8 July 2012  
-__Author:__ Dell-Ray Sackett | lospheris@0d83150e6827d1319cdb596135f9bd17  
+__Author:__ Dell-Ray Sackett | https://github.com/lospheris  
 __Version:__ 0.5  
 __Copyright (c) 2012 Dell-Ray Sackett__  
 __License:__ License information can be found in the LICENSE.txt file which
