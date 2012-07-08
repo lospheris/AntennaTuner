@@ -1,8 +1,8 @@
 /*
 Automatic Antenna Tuner
-Date: 20 June 2012
+Date: 8 July 2012
 Author: Dell-Ray Sackett
-Version: 0.3
+Version: 0.5
 Copyright (c) 2012 Dell-Ray Sackett
 License: License information can be found in the LICENSE.txt file which
   MUST accompany all versions of this code.
@@ -19,6 +19,11 @@ MemoryFree: http://arduino.cc/playground/Code/AvailableMemory
 #include <LiquidTWI.h>
 #include <EEPROM.h>
 #include <MemoryFree.h>
+
+/*
+ *This is the debugging statement. Uncomment this if you would like to debgu
+*/
+//#define DEBUG
 
 
 // Declare some constants
@@ -42,6 +47,7 @@ const int RELAY_B = 6;                  // called UNIT_B in sch
 const byte XCVR_ADDR = 0x58;
 const byte MCU_ADDR = 0xE0;
 const byte BACKPACK_ADDR = 0x00;
+const byte DEBUG_SCREEN_ADDR = 0x01;
 
 // Memory maping for the EEPROM
 const byte EEPROM_TURNS = 0;    // long so writes through 3
@@ -49,6 +55,7 @@ const byte EEPROM_TURNS = 0;    // long so writes through 3
 
 // Variables and objects
 LiquidTWI lcd(BACKPACK_ADDR);
+LiquidTWI dlcd(DEBUG_SCREEN_ADDR);
 boolean screenUpdatesPending = true;
 boolean movingUp = false;
 boolean movingDown = false;
@@ -93,6 +100,10 @@ void setup()
     lcd.begin(20, 4);          // Start the LCD at the correct Size.
     lcd.clear();               // Clear anything off of the LCD. (Mostly for resets).
     updateFrequency();         // Get the current Frequency of the radio.
+    #ifdef DEBUG
+      dlcd.begin(16, 2);
+      lcd.clear();
+    #endif
 }
 
 void loop()
