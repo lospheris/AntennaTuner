@@ -87,7 +87,7 @@ String debugStr = "Debug!";
 void setup()
 {
     // Setup the interrupt for the turn counter.
-    attachInterrupt(2, turnCounter, RISING);
+    attachInterrupt(0, turnCounter, HIGH);
     
     // Setup the pins
     pinMode(CTRL_UP, INPUT);
