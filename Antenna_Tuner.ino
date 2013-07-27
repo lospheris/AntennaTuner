@@ -55,6 +55,7 @@ const byte EEPROM_TURNS = 0;    // long so writes through 3
 
 // Variables and objects
 LiquidTWI lcd(BACKPACK_ADDR);
+// Part of a new debugging system.
 #ifdef DEBUG
   LiquidTWI dlcd(DEBUG_SCREEN_ADDR);
 #endif
@@ -128,7 +129,7 @@ void loop()
       upPressed = false;
     }
     // same but for down.
-    if(digitalRead(CTRL_DOWN) == HIGH)
+    if(digitalRead(CTRL_DOWN) == LOW)
     {
       downPressed = true;
     } else
