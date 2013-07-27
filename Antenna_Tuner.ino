@@ -199,7 +199,7 @@ void updateScreen()
     lcd.clear();
     screenLayout();
     lcd.setCursor(characterPlaces[0], characterPlaces[1]);
-    lcd.print(String(antCount) + "Trns");
+    lcd.print(String(turnCount) + "Trns");
     lcd.setCursor(characterPlaces[2], characterPlaces[3]);
     lcd.print(frequencyStr + "MHz");
     lcd.setCursor(characterPlaces[4], characterPlaces[5]);
