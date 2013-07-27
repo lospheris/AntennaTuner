@@ -55,7 +55,9 @@ const byte EEPROM_TURNS = 0;    // long so writes through 3
 
 // Variables and objects
 LiquidTWI lcd(BACKPACK_ADDR);
-LiquidTWI dlcd(DEBUG_SCREEN_ADDR);
+#ifdef DEBUG
+  LiquidTWI dlcd(DEBUG_SCREEN_ADDR);
+#endif
 boolean screenUpdatesPending = true;
 boolean movingUp = false;
 boolean movingDown = false;
@@ -458,6 +460,7 @@ void turnCounter()
       turnCount--;
    }
    interrupts();
+   debugStr = "Sensor!";
 }
 
 void moveUp()
