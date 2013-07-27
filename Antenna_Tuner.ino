@@ -84,7 +84,7 @@ String debugStr = "Debug!";
 void setup()
 {
     // Setup the interrupt for the turn counter.
-    attachInterrupt(1, turnCounter, RISING);
+    attachInterrupt(2, turnCounter, RISING);
     
     // Setup the pins
     pinMode(CTRL_UP, INPUT);
@@ -118,7 +118,7 @@ void loop()
         updateScreen();
     }
     // Decide if up is pressed. If it isn't set its bool to false
-    if(digitalRead(CTRL_UP) == HIGH)
+    if(digitalRead(CTRL_UP) == LOW)
     {
       upPressed = true;
     } else
@@ -175,7 +175,7 @@ void loop()
         }
     }
     
-    debugStr = String(freeMemory());
+    //debugStr = String(freeMemory());
 }
 
 
@@ -199,7 +199,7 @@ void updateScreen()
     lcd.clear();
     screenLayout();
     lcd.setCursor(characterPlaces[0], characterPlaces[1]);
-    lcd.print(antCountStr + "Trns");
+    lcd.print(String(antCount) + "Trns");
     lcd.setCursor(characterPlaces[2], characterPlaces[3]);
     lcd.print(frequencyStr + "MHz");
     lcd.setCursor(characterPlaces[4], characterPlaces[5]);
