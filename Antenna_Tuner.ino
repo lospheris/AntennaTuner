@@ -1,4 +1,3 @@
-
 /*
 Automatic Antenna Tuner
 Date: 28 July 2013
@@ -471,6 +470,7 @@ void turnCounter()
       turnCount--;
    }
    interrupts();
+   screenUpdatesPending = true;
    debugStr = "Sensor!";
 }
 
