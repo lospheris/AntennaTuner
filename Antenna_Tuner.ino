@@ -1,8 +1,9 @@
+
 /*
 Automatic Antenna Tuner
-Date: 8 July 2012
+Date: 28 July 2013
 Author: Dell-Ray Sackett
-Version: 0.5
+Version: 0.7
 Copyright (c) 2012 Dell-Ray Sackett
 License: License information can be found in the LICENSE.txt file which
   MUST accompany all versions of this code.
@@ -10,7 +11,7 @@ Discription:
   This is an automatic Antenna Tuner. Right now it is designed to work 
   with an ICOM-706. It will read the frequency from the radio and then
   adjust the antenna accordingly.
-Required Nonstandard Libraries:
+Required Non-standard Libraries:
 LiquidTWI: https://github.com/Stephanie-Maks/Arduino-LiquidTWI
 MemoryFree: http://arduino.cc/playground/Code/AvailableMemory
 */
@@ -69,6 +70,7 @@ boolean upPressed = false;
 boolean downPressed = false;
 byte inBuf[RXBUFSIZE];
 byte rcvChar = 0x00;
+byte longBuf[4];
 long freqOut = 0;
 long freq = 0;
 long tempFreq = 0;
@@ -108,6 +110,9 @@ void setup()
       dlcd.begin(16, 2);
       lcd.clear();
     #endif
+    
+    // Restore the current turn count
+    turnCount = readTurns();
 }
 
 void loop()
@@ -150,6 +155,7 @@ void loop()
     if(!upPressed && !downPressed && moving == true)
     {
         moveStop();
+        writeTurns(turnCount);
     }
     if(digitalRead(CTRL_TUNE) == HIGH && !tuning)
     {
@@ -184,6 +190,8 @@ void loop()
 
 
 // Functions!!!
+// ----------------------------------------------------Screen functions------------------------------------------------------------
+
 void screenLayout()
 {
     // This function lays out the screen
@@ -225,6 +233,7 @@ void updateScreen()
     screenUpdatesPending = false;
 }
 
+// ----------------------------------------------------Radio functions------------------------------------------------------------
 void radioWrite(byte radioAddr, byte mcuAddr, byte command)
 {
     // Write a command to the XCVR
@@ -391,6 +400,7 @@ byte getSWR(byte radioAddr, byte mcuAddr)
         return -1;
     }
 }
+
 //---------------------------------------------Frequency Calculations----------------------------------------------------------------
 void updateFrequency()
 {
@@ -449,7 +459,6 @@ long calculateTurns(float waveLength)
 }
 
 // ----------------------------------------------------movement functions------------------------------------------------------------
-
 void turnCounter()
 {
     // This will be called of the reed switch goes off, if we are driving the motor up then increment the turnCount variable
@@ -461,9 +470,7 @@ void turnCounter()
    } else if(movingDown) {
       turnCount--;
    }
-   Serial.println(turnCount);
    interrupts();
-   screenUpdatesPending = true;
    debugStr = "Sensor!";
 }
 
@@ -495,4 +502,36 @@ void moveStop()
     movingUp = false;
     movingDown = false;
     moving = false;
+}
+
+// ----------------------------------------------------EEPROM functions------------------------------------------------------------
+void writeTurns(long turns)
+{
+  // Break up turns into 4 bytes to be written to the EEPROM
+  for (int count = 0; count <= 4; count++)
+  {
+    longBuf[count] = turns && 11111111;
+    turns >> 8;
+  }
+  
+  // Write the data to the EEPROM
+  for (int count = 0; count <=4; count++)
+  {
+    EEPROM.write(count, longBuf[count]);
+  }  
+}
+
+long readTurns()
+{
+  long turns = 0;
+  for (int count = 0; count <=4; count++)
+  {
+   turns = turns || EEPROM.read(count);
+   if (count < 4)
+    {
+     turns << 8;
+    }
+  }
+  
+  return turns; 
 }
