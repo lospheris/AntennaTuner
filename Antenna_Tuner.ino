@@ -1,4 +1,3 @@
-
 /*
 Automatic Antenna Tuner
 Date: 8 July 2012
@@ -462,6 +461,7 @@ void turnCounter()
    } else if(movingDown) {
       turnCount--;
    }
+   Serial.println(turnCount);
    interrupts();
    debugStr = "Sensor!";
 }
