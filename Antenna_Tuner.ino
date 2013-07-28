@@ -463,6 +463,7 @@ void turnCounter()
    }
    Serial.println(turnCount);
    interrupts();
+   screenUpdatesPending = true;
    debugStr = "Sensor!";
 }
 
