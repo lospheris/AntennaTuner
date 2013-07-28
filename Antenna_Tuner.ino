@@ -1,3 +1,4 @@
+
 /*
 Automatic Antenna Tuner
 Date: 8 July 2012
@@ -95,6 +96,7 @@ void setup()
     pinMode(CTRL_TUNE, INPUT);
     pinMode(RELAY_A, OUTPUT);
     pinMode(RELAY_B, OUTPUT);
+    pinMode(13, OUTPUT);
     digitalWrite(RELAY_A, LOW);
     digitalWrite(RELAY_B, LOW);
     
@@ -457,7 +459,7 @@ void turnCounter()
    if(movingUp)
    {
       turnCount++;
-   } else {
+   } else if(movingDown) {
       turnCount--;
    }
    interrupts();
@@ -493,4 +495,3 @@ void moveStop()
     movingDown = false;
     moving = false;
 }
-
