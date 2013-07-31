@@ -507,31 +507,37 @@ void moveStop()
 // ----------------------------------------------------EEPROM functions------------------------------------------------------------
 void writeTurns(long turns)
 {
-  // Break up turns into 4 bytes to be written to the EEPROM
-  for (int count = 0; count <= 4; count++)
-  {
-    longBuf[count] = turns && 11111111;
-    turns >> 8;
-  }
+  // Create a byte pointer and point it to turns
+  byte *ptr = ( byte *) &turns;
   
-  // Write the data to the EEPROM
-  for (int count = 0; count <=4; count++)
-  {
-    EEPROM.write(count, longBuf[count]);
+  // A long is four bytes so the first four bytes of EEPROM will always be the current turns.
+  // Iterate through enough bytes of EEPROM to equal a long.
+  for(int i = 0; i <= 3; i++){
+    
+    // Write the point to memory
+    EEPROM.write(i, *ptr);
+    
+    // Increment the pointer
+    ptr++;    
   }  
 }
 
-long readTurns()
-{
+long readTurns(){
+  // Declare and initialize a long to return
   long turns = 0;
-  for (int count = 0; count <=4; count++)
-  {
-   turns = turns || EEPROM.read(count);
-   if (count < 4)
-    {
-     turns << 8;
-    }
-  }
+ 
+  // Create a pointer and point it to the long
+  byte *ptr = ( byte *) &turns;
+ 
+  // A long is four bytes so the first four bytes of EEPROM will always be the current turns.
+  // Iterate through enough bytes of EEPROM to equal a long.
+  for(int i = 0; i <= 3; i++){
   
-  return turns; 
+    // Read the current EEPROM byte and store it in this "byte sized" section of the long
+    *ptr = EEPROM.read(i);
+  
+    // increment the pointer
+    ptr++;
+  }
+  return turns;
 }
